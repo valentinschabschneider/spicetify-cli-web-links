@@ -106,6 +106,20 @@
 			"https://rateyourmusic.com/search?searchterm={artist}%20{album}&searchtype=l",
 			"https://rateyourmusic.com/search?searchterm={artist}%20{track}&searchtype=l"
 		),
+		new Link(
+			"AOTY search",
+			encodeURIComponent,
+			"https://www.albumoftheyear.org/search/artists/?q={artist}",
+			// "https://www.albumoftheyear.org/search/albums/?q={artist}%20{album}" doesn't find anything most of the time
+			"https://www.albumoftheyear.org/search/?q={artist}%20{album}"
+		),
+		new Link(
+			"Google search",
+			encodeURIComponent,
+			"https://www.google.com/search?q={artist}",
+			"https://www.google.com/search?q={artist}%20{album}",
+			"https://www.google.com/search?q={artist}%20{album}%20{track}"
+		),
 	];
 
 	const buildContextMenuItem = (link) => {
