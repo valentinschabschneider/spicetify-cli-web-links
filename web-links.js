@@ -26,7 +26,6 @@
         async getUrl(uriObj) {
             let url = ""
             let replacements = {}
-            console.log(this.trackUrl !== undefined);
 
             switch (uriObj.type) {
                 case Spicetify.URI.Type.TRACK:
@@ -45,7 +44,6 @@
                     url = this.albumUrl;
 
                     const album = await fetchAlbum(uriObj.getBase62Id());
-                    console.log(album);
 
                     replacements = {
                         artist: album.artists[0].name,
@@ -85,13 +83,20 @@
             "https://www.last.fm/music/{artist}/{album}/{track}"
         ),
         new Link(
-            "RateYourMusic",
+            "RYM",
             (str) => {
                 return str.replace(/\s+/g, "-").replace(/[',:]/g, "").replace("&", "and").toLowerCase()
             },
             "https://rateyourmusic.com/artist/{artist}",
             "https://rateyourmusic.com/release/{type}/{artist}/{album}/",
             "https://rateyourmusic.com/release/single/{artist}/{track}/"
+        ),
+        new Link(
+            "RYM search",
+            encodeURIComponent,
+            "https://rateyourmusic.com/search?searchterm={artist}&searchtype=a",
+            "https://rateyourmusic.com/search?searchterm={artist}%20{album}&searchtype=l",
+            "https://rateyourmusic.com/search?searchterm={artist}%20{track}&searchtype=l"
         )
     ];
 
@@ -99,7 +104,6 @@
         return new Spicetify.ContextMenu.Item(
             link.text,
             (uris) => {
-                console.log(uris[0]);
                 const uriObj = Spicetify.URI.fromString(uris[0]);
                 link.getUrl(uriObj).then((url) => window.open(url));
             },
